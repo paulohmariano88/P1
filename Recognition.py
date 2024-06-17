@@ -10,8 +10,8 @@ class RecognitionHand():
         self.mp_drawing = mp.solutions.drawing_utils # Desenhar as bolas nas falanges
         self.mp_hands = mp.solutions.hands # Reconhecedor de mãos
         
-        self._modbus = ModBusSender('127.0.0.1', 502, 1)
-        self._modbus.get_connection()  # Estabelecer conexão Modbus
+      #  self._modbus = ModBusSender('127.0.0.1', 502, 1)
+      #  self._modbus.get_connection()  # Estabelecer conexão Modbus
     
     def recoginitionInitialize(self):
         cap = cv2.VideoCapture(0)
@@ -43,7 +43,7 @@ class RecognitionHand():
                                 if ponto_y > linha_y:  # Verifica se o ponto passou da linha
                                     count += 1
                                     
-                                    self._modbus.send_signal(1)
+                                #    self._modbus.send_signal(1)
                                     cv2.line(image, (0, linha_y), (image.shape[1], linha_y), (0, 0, 255), 2)
                                     print("Dedo passou da linha! ", count)
 

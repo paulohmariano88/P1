@@ -4,8 +4,6 @@ import cv2
 import mediapipe as mp
 from Sender import ModBusSender
 
-
-
 class RecognitionHand():
 
 

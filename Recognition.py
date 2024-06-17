@@ -2,7 +2,7 @@
 # Livro : https://d2l.ai/index.html - Dive into Deep Learning
 import cv2
 import mediapipe as mp
-from Sender import ModBusSender
+from sender import ModBusSender
 
 class RecognitionHand():
 
@@ -32,20 +32,22 @@ class RecognitionHand():
 
                 if results.multi_hand_landmarks:
                     for hand_landmarks in results.multi_hand_landmarks:
-                        self.mp_drawing.draw_landmarks(image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
+                        try:
+                            self.mp_drawing.draw_landmarks(image, hand_landmarks, self.mp_hands.HAND_CONNECTIONS)
 
-                        # Verificar cada ponto de referência dos dedos
-                        for landmark in hand_landmarks.landmark:
-                            count: int = 0
-                            ponto_y = int(landmark.y * image.shape[0])
-                            if ponto_y > linha_y:  # Verifica se o ponto passou da linha
-                                count += 1
-                                self._modbus.send_signal(1)
-                                cv2.line(image, (0, linha_y), (image.shape[1], linha_y), (0, 0, 255), 2)
-                                print("Dedo passou da linha! ", count)
+                            # Verificar cada ponto de referência dos dedos
+                            for landmark in hand_landmarks.landmark:
+                                count: int = 0
+                                ponto_y = int(landmark.y * image.shape[0])
+                                if ponto_y > linha_y:  # Verifica se o ponto passou da linha
+                                    count += 1
+                                    self._modbus.send_signal(1)
+                                    cv2.line(image, (0, linha_y), (image.shape[1], linha_y), (0, 0, 255), 2)
+                                    print("Dedo passou da linha! ", count)
 
-                                #break  # Opcional: interrompe o loop após a primeira detecção
-
+                                    #break  # Opcional: interrompe o loop após a primeira detecção
+                        except Exception as e:
+                                print("Falha: ", e)
                 # Exibe a imagem processada
                 cv2.imshow('Hand Recognition', image)
                 if cv2.waitKey(5) & 0xFF == 27:

@@ -1,4 +1,4 @@
-from Recognition import RecognitionHand
+from recognition import RecognitionHand
 
 
 def main():

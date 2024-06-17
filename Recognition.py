@@ -6,7 +6,6 @@ from Sender import ModBusSender
 
 class RecognitionHand():
 
-
     def __init__(self):
         self.mp_drawing = mp.solutions.drawing_utils # Desenhar as bolas nas falanges
         self.mp_hands = mp.solutions.hands # Reconhecedor de mãos

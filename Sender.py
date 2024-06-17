@@ -47,12 +47,15 @@ class ModBusSender(Sender):
         self._is_connected = False
 
     def send_signal(self, type_signal: bool):
-        signal_value = 1 if type_signal else 0
-        if self._client.write_single_register(1, 1):
-            print(f"ModBus Signal sent: {type_signal}")
-        else:
-            print("Failed to send ModBus Signal")
-
+        try:
+            signal_value = 1 if type_signal else 0
+            if self._client.write_single_register(1, 1):
+                print(f"ModBus Signal sent: {type_signal}")
+            else:
+                print("Failed to send ModBus Signal")
+        except:
+            pass
+        
     def get_connection(self):
         try:
             self._is_connected = self._client.open()

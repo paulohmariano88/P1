@@ -1,6 +1,5 @@
 from recognition import RecognitionHand
 
-
 def main():
     recon = RecognitionHand()
     recon.recoginitionInitialize()

@@ -63,6 +63,8 @@ class RecognitionHand:
         """Captura e atualiza o frame de vídeo no Label."""
         success, image = self.cap.read()
         if success:
+            
+            image = cv2.flip(image, 1)
             image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
             top_left, bottom_right = self.get_rectangle_coordinates(image)
             rect_color = (0, 0, 255)

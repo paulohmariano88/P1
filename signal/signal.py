@@ -12,13 +12,7 @@ class Signal(ABC):
         pass
 
 
-class LigthSignal(Signal):
 
-    def start(self):
-        pass
-
-    def stop(self):
-        pass
 
 class SoundSignal(Signal):
 

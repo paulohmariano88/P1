@@ -2,18 +2,18 @@
 # Livro : https://d2l.ai/index.html - Dive into Deep Learning
 import cv2
 import mediapipe as mp
-from sender import ModBusSender
+# from sender import ModBusSender
 
-class RecognitionHand():
+class RecognitionHand:
 
     def __init__(self):
         self.mp_drawing = mp.solutions.drawing_utils
         self.mp_hands = mp.solutions.hands
    
     def recoginitionInitialize(self):
-        cap = cv2.VideoCapture(0)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)  # Define a largura para 1920 pixels
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)  # Define a altura para 1080 pixels
+        cap = cv2.VideoCapture(1)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1360)  # Define a largura para 1920 pixels
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 768)  # Define a altura para 1080 pixels
 
         with self.mp_hands.Hands(min_detection_confidence=0.5, min_tracking_confidence=0.5) as hands:
             while cap.isOpened():
@@ -29,8 +29,8 @@ class RecognitionHand():
                 image_height, image_width = image.shape[0], image.shape[1]
 
                 # Definindo o tamanho do retângulo
-                rect_width = int(image_width * 0.05)  # 5% da largura da imagem
-                rect_height = int(image_height * 0.8)  # 80% da altura da imagem
+                rect_width = int(image_width * 0.40)  # 5% da largura da imagem
+                rect_height = int(image_height * 0.50)  # 80% da altura da imagem
 
                 # Calculando as coordenadas do retângulo centralizado
                 center_x, center_y = image_width // 2, image_height // 2

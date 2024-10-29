@@ -1,4 +1,4 @@
-from signal.signal import Signal
+from src.signal.signal import Signal
 
 
 class LigthSignal(Signal):

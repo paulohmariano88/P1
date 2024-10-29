@@ -1,5 +1,8 @@
 from abc import ABC, abstractmethod
+import threading
 from pyModbusTCP.client import ModbusClient
+
+from src.service.modbus_server import ModbusServer
 
 
 class Sender(ABC):
@@ -42,39 +45,33 @@ class MqttSender(Sender):
 
 
 class ModBusSender(Sender):
-    def __init__(self, ip, port, slave_address):
-        self._client = ModbusClient(host=ip, port=port, unit_id=slave_address)
-        self._is_connected = False
+
+    _instance = None
+    _lock = threading.Lock()
+    
+    def __init__(self):
+        self._server = ModbusServer()
+        threading.Thread(target=self._server.run, daemon=True).start()
+        
+    def __new__(cls):
+        if cls._instance is None:
+            with cls._lock:
+                if cls._instance is None:
+                    cls._instance = super(ModBusSender, cls).__new__(cls)
+                    cls._instance.__init__()
+        return cls._instance
 
     def send_signal(self, type_signal: bool):
         try:
-            signal_value = 1 if type_signal else 0
-            if self._client.write_single_register(1, 1):
-                print(f"ModBus Signal sent: {type_signal}")
-            else:
-                print("Failed to send ModBus Signal")
-        except:
-            pass
-        
+            self._server.update_register(type_signal)
+        except(Exception) as e:
+            print("Server Problem: ", e)
+
     def get_connection(self):
-        try:
-            self._is_connected = self._client.open()
-            if self._is_connected:
-                print("ModBus connection established")
-            else:
-                print("Failed to establish connection")
-        except Exception as e:
-            print(f"Failed to establish connection: {e}")
-            self._is_connected = False
+        pass
 
     def get_status_machine(self, is_connected: bool):
-        self._is_connected = is_connected
-        status = self._client.read_holding_registers(2, 1)
-        if status:
-            return status[0]
-        else:
-            print("Failed to read status register")
-            return None
+        pass
 
 
 

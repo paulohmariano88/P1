@@ -1,5 +1,4 @@
-from interface.main_screen import MainScreen
-from service.recognition import RecognitionHand
+from src.interface.main_screen import MainScreen
 
 
 if __name__ == "__main__":

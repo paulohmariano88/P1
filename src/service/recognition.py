@@ -16,12 +16,19 @@ class RecognitionHand:
         self.cap = self.initialize_camera()
         self._width_secure_area = 0.50
         self._height_secure_area = 0.40
+        self.capturing = False
+
+    def start_capture(self):
+        if not self.capturing:
+            self.capturing = True
+            self.update_video_frame()
+
 
     def initialize_camera(self):
         """Configura a câmera."""
         cap = cv2.VideoCapture(1)
-        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1024)
-        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 768)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 1280)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 720)
         return cap
 
     def set_width_secure_area(self, size):
@@ -89,10 +96,15 @@ class RecognitionHand:
             self.video_label.imgtk = imgtk
             self.video_label.config(image=imgtk)
 
-        self.video_label.after(10, self.update_video_frame)
+        if self.capturing:
+             self.video_label.after(10, self.update_video_frame)
+
+    def stop_capture(self):
+        self.capturing = False
 
     def release(self):
         """Libera a câmera."""
+        self.stop_capture()
         if self.cap.isOpened():
             self.cap.release()
 

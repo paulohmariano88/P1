@@ -6,7 +6,7 @@ from PIL import Image, ImageTk
 import threading
 from config.config import Config
 from playsound import playsound
-from src.service.sender import ModBusSender
+# from src.service.sender import ModBusSender
 
 class RecognitionHand:
     def __init__(self, video_label):
@@ -18,7 +18,7 @@ class RecognitionHand:
         self._width_secure_area = 0.50
         self._height_secure_area = 0.40
         self.capturing = False
-        self.sender = ModBusSender()  # Reutiliza a mesma instância de ModBusSender
+        # self.sender = ModBusSender()  # Reutiliza a mesma instância de ModBusSender
         self.alarm_thread = None  # Thread do alarme
         self.alarm_active = False  # Flag para indicar se o alarme está ativo
         self.stop_alarm = threading.Event()  # Evento para parar o alarme
